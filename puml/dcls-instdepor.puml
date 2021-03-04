@@ -1,0 +1,66 @@
+@startuml instdepor
+'https://plantuml.com/class-diagram
+
+skinparam classAttributeIconSize 0
+
+enum TipoInstalacion << enumeration >> {
+    Piscina
+    Frontón
+    Gimnasio
+    PistaTenis
+}
+
+enum TipoArticulo << enumeration >> {
+    Balón
+    Red
+    Raqueta
+}
+
+class Socio {
+    - nombre : String
+    - direccion : String
+    - ciudad : String
+    - provincia : String
+    - telefono : String
+    - cuota : float
+}
+
+class Articulo {
+    - codigo : int
+    - descripcion : String 
+    - tipo : TipoArticulo
+}
+
+class Instalacion {
+    - nombre : String
+    - tipo : TipoInstalacion
+}
+
+class Reserva {
+    - id : int
+    - socio : Socio
+    - fecha : Date
+    - horaInicio : LocalTime
+    - horaFin : LocalTime
+}
+
+class ReservaArticulo {
+    - articulo : Articulo
+    - cantidad : int
+}
+
+class ReservaInstalacion {
+    - instalacion : Instalacion
+}
+
+
+Socio "1" -- "0..*" Reserva : reserva >
+
+Articulo "1" -up- "0..*" ReservaArticulo : "es reservado" >
+Instalacion "1" -up- "0..*" ReservaInstalacion : "es reservada" >
+
+Reserva <|-- ReservaArticulo
+Reserva <|- ReservaInstalacion
+
+
+@enduml
